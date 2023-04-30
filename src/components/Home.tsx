@@ -45,7 +45,7 @@ const Home = () => {
       value: '-',
     },
   ]);
-
+  const [count, setCount] = useState(0);
   const togglePlayer = value => {
     setPlayer(value);
   };
@@ -54,6 +54,7 @@ const Home = () => {
     mark[index].value = value;
     // console.log(mark);
     empire();
+    setCount(count + 1);
   };
 
   const resetGame = () => {
@@ -97,6 +98,7 @@ const Home = () => {
     ]);
     setPlayer('0');
     setResult(null);
+    setCount(0);
   };
 
   const empire = () => {
@@ -104,6 +106,7 @@ const Home = () => {
       return value;
     });
 
+    console.log(count);
     const checkHorizontalMove = (start, end) => {
       const moves = new Set(arr.slice(start, end));
       if (moves.size === 1 && Array.from(moves).join('') !== '-') {
@@ -145,6 +148,9 @@ const Home = () => {
     checkHorizontalMove(6, 9);
     checkDigonalsMove();
     checkVeritcalMove();
+    if (count === 8) {
+      setResult('Tie');
+    }
   };
   return (
     <View style={styles.container}>
@@ -170,7 +176,11 @@ const Home = () => {
 
       {result && (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultTxt}>{`'${result}'`} wins the match</Text>
+          <Text style={styles.resultTxt}>{`${
+            result === 'Tie'
+              ? `Match '${result}' Try Again.`
+              : `'${result}' wins the match.`
+          }`}</Text>
           <Text style={[styles.resultTxt, {fontSize: 16}]}>Game Over!</Text>
         </View>
       )}
