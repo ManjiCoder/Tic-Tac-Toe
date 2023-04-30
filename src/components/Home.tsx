@@ -108,13 +108,12 @@ const Home = () => {
       const moves = new Set(arr.slice(start, end));
       if (moves.size === 1 && Array.from(moves).join('') !== '-') {
         console.log(moves, arr.slice(start, end));
+        setResult(arr.slice(start, end)[0]);
       }
     };
     const checkDigonalsMove = () => {
       const d1 = new Set([arr[0], arr[4], arr[8]]);
       const d2 = new Set([arr[2], arr[4], arr[6]]);
-      // console.log({d1});
-      // console.log(Array.from(d1));
       if (d1.size === 1 && Array.from(d1).join('') !== '-') {
         // console.log(Array.from(d1)[0]);
         setResult(String(Array.from(d1)[0]));
