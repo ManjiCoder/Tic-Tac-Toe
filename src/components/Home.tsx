@@ -123,10 +123,28 @@ const Home = () => {
         setResult(Array.from(d2)[0]);
       }
     };
+    const checkVeritcalMove = () => {
+      const v1 = new Set([arr[0], arr[3], arr[6]]);
+      const v2 = new Set([arr[1], arr[4], arr[7]]);
+      const v3 = new Set([arr[2], arr[5], arr[8]]);
+      if (v1.size === 1 && Array.from(v1).join('') !== '-') {
+        // console.log(Array.from(d1)[0]);
+        setResult(String(Array.from(v1)[0]));
+      }
+      if (v2.size === 1 && Array.from(v2).join('') !== '-') {
+        // console.log(Array.from(d2));
+        setResult(Array.from(v2)[0]);
+      }
+      if (v3.size === 1 && Array.from(v3).join('') !== '-') {
+        // console.log(Array.from(d2));
+        setResult(Array.from(v3)[0]);
+      }
+    };
     checkHorizontalMove(0, 3);
     checkHorizontalMove(3, 6);
     checkHorizontalMove(6, 9);
     checkDigonalsMove();
+    checkVeritcalMove();
   };
   return (
     <View style={styles.container}>
@@ -142,6 +160,7 @@ const Home = () => {
             index={index}
             togglePlayer={togglePlayer}
             setPlayerMove={setPlayerMove}
+            result={result}
           />
         ))}
       </View>
