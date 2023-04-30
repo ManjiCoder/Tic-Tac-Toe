@@ -2,15 +2,24 @@
 import {StyleSheet, Text, TouchableOpacity, Vibration} from 'react-native';
 import React from 'react';
 
-const Button = ({icon, player, togglePlayer}) => {
-  const handleClick = () => {
+const Button = ({value, player, togglePlayer, setPlayerMove, index}) => {
+  const setPlayer = () => {
     togglePlayer(player === '0' ? 'X' : '0');
     Vibration.vibrate(108);
     console.warn(player);
   };
+  const handleClick = i => {
+    setPlayer();
+    setPlayerMove(i, player);
+  };
   return (
-    <TouchableOpacity style={styles.btn} onPress={handleClick}>
-      <Text style={styles.heading}>{icon}</Text>
+    <TouchableOpacity
+      style={styles.btn}
+      disabled={value !== '-'}
+      onPress={() => {
+        handleClick(index);
+      }}>
+      <Text style={styles.heading}>{value}</Text>
     </TouchableOpacity>
   );
 };

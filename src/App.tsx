@@ -1,6 +1,6 @@
 import {ScrollView, StatusBar, StyleSheet} from 'react-native';
 import React from 'react';
-import Home from '../components/Home';
+import Home from './components/Home';
 
 const App = () => {
   return (
