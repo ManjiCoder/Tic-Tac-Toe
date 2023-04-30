@@ -6,7 +6,7 @@ const Button = ({value, player, togglePlayer, setPlayerMove, index}) => {
   const setPlayer = () => {
     togglePlayer(player === '0' ? 'X' : '0');
     Vibration.vibrate(108);
-    console.warn(player);
+    // console.warn(player);
   };
   const handleClick = i => {
     setPlayer();
