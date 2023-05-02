@@ -105,49 +105,24 @@ const Home = () => {
     const arr = mark.map(({value}) => {
       return value;
     });
+    // console.log(arr);
 
-    console.log(count);
-    const checkHorizontalMove = (start, end) => {
-      const moves = new Set(arr.slice(start, end));
-      if (moves.size === 1 && Array.from(moves).join('') !== '-') {
-        console.log(moves, arr.slice(start, end));
-        setResult(arr.slice(start, end)[0]);
+    const checkMoves = (i: number, j: number, k: number) => {
+      const s1 = new Set([arr[i], arr[j], arr[k]]);
+      if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
+        // console.log(s1);
+        setResult(arr[i]);
       }
     };
-    const checkDigonalsMove = () => {
-      const d1 = new Set([arr[0], arr[4], arr[8]]);
-      const d2 = new Set([arr[2], arr[4], arr[6]]);
-      if (d1.size === 1 && Array.from(d1).join('') !== '-') {
-        // console.log(Array.from(d1)[0]);
-        setResult(String(Array.from(d1)[0]));
-      }
-      if (d2.size === 1 && Array.from(d2).join('') !== '-') {
-        // console.log(Array.from(d2));
-        setResult(Array.from(d2)[0]);
-      }
-    };
-    const checkVeritcalMove = () => {
-      const v1 = new Set([arr[0], arr[3], arr[6]]);
-      const v2 = new Set([arr[1], arr[4], arr[7]]);
-      const v3 = new Set([arr[2], arr[5], arr[8]]);
-      if (v1.size === 1 && Array.from(v1).join('') !== '-') {
-        // console.log(Array.from(d1)[0]);
-        setResult(String(Array.from(v1)[0]));
-      }
-      if (v2.size === 1 && Array.from(v2).join('') !== '-') {
-        // console.log(Array.from(d2));
-        setResult(Array.from(v2)[0]);
-      }
-      if (v3.size === 1 && Array.from(v3).join('') !== '-') {
-        // console.log(Array.from(d2));
-        setResult(Array.from(v3)[0]);
-      }
-    };
-    checkHorizontalMove(0, 3);
-    checkHorizontalMove(3, 6);
-    checkHorizontalMove(6, 9);
-    checkDigonalsMove();
-    checkVeritcalMove();
+    checkMoves(0, 1, 2);
+    checkMoves(3, 4, 5);
+    checkMoves(6, 7, 8);
+    checkMoves(0, 3, 6);
+    checkMoves(1, 4, 7);
+    checkMoves(2, 5, 8);
+    checkMoves(0, 4, 8);
+    checkMoves(2, 4, 6);
+
     if (count === 8) {
       setResult('Tie');
     }
