@@ -148,9 +148,7 @@ const Home = () => {
               Match <Text style={[styles.bold]}>{result}</Text> try again.
             </Text>
           )}
-          <Text style={[styles.resultTxt, styles.heading]}>
-            Game Over!{result}
-          </Text>
+          <Text style={[styles.resultTxt, styles.heading]}>Game Over!</Text>
         </View>
       )}
     </View>

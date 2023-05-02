@@ -16,5 +16,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     padding: 8,
+    backgroundColor: '#242B2E',
+    height: '100%',
   },
 });
