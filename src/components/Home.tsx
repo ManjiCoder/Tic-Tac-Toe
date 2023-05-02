@@ -62,7 +62,6 @@ const Home = () => {
 
   const setPlayerMove = (index, value) => {
     mark[index].value = value;
-    // console.log(mark);
     empire();
     setCount(count + 1);
   };
@@ -75,10 +74,7 @@ const Home = () => {
   };
 
   const empire = () => {
-    const arr = mark.map(({value}) => {
-      return value;
-    });
-    // console.log(arr);
+    const arr = mark.map(({value}) => value);
 
     const checkMoves = (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
@@ -87,8 +83,6 @@ const Home = () => {
         mark[i].isWinMove = true;
         mark[j].isWinMove = true;
         mark[k].isWinMove = true;
-        // console.log(arr[i], arr[j], arr[k]);
-        // console.log(Array.from(s1).join(''));
       }
     };
 
