@@ -9,6 +9,7 @@ const Button = ({
   togglePlayer,
   setPlayerMove,
   index,
+  isWinMove,
 }) => {
   const setPlayer = () => {
     togglePlayer(player === '0' ? 'X' : '0');
@@ -21,12 +22,14 @@ const Button = ({
   };
   return (
     <TouchableOpacity
-      style={styles.btn}
+      style={[styles.btn, isWinMove && styles.winMoveBg]}
       disabled={result !== null || value !== '-'}
       onPress={() => {
         handleClick(index);
       }}>
-      <Text style={styles.heading}>{value}</Text>
+      <Text style={[styles.heading, isWinMove && styles.winMoveText]}>
+        {value}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -50,5 +53,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textAlign: 'center',
+  },
+  winMoveText: {
+    color: 'gold',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  winMoveBg: {
+    // backgroundColor: '#242B2E',
+    backgroundColor: 'purple',
   },
 });

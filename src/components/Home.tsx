@@ -1,51 +1,61 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import Button from './Button';
 
 const Home = () => {
-  const [player, setPlayer] = useState('0');
-  const [result, setResult] = useState(null);
-  const [mark, setMark] = useState([
+  const initialState = [
     {
       id: 1,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 2,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 3,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 4,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 5,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 6,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 7,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 8,
       value: '-',
+      isWinMove: false,
     },
     {
       id: 9,
       value: '-',
+      isWinMove: false,
     },
-  ]);
+  ];
+  const [player, setPlayer] = useState('0');
+  const [result, setResult] = useState(null);
+  const [mark, setMark] = useState(initialState);
   const [count, setCount] = useState(0);
+
   const togglePlayer = value => {
     setPlayer(value);
   };
@@ -58,44 +68,7 @@ const Home = () => {
   };
 
   const resetGame = () => {
-    setMark([
-      {
-        id: 1,
-        value: '-',
-      },
-      {
-        id: 2,
-        value: '-',
-      },
-      {
-        id: 3,
-        value: '-',
-      },
-      {
-        id: 4,
-        value: '-',
-      },
-      {
-        id: 5,
-        value: '-',
-      },
-      {
-        id: 6,
-        value: '-',
-      },
-      {
-        id: 7,
-        value: '-',
-      },
-      {
-        id: 8,
-        value: '-',
-      },
-      {
-        id: 9,
-        value: '-',
-      },
-    ]);
+    setMark(initialState);
     setPlayer('0');
     setResult(null);
     setCount(0);
@@ -110,30 +83,43 @@ const Home = () => {
     const checkMoves = (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
       if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
-        // console.log(s1);
-        setResult(arr[i]);
+        setResult(Array.from(s1).join(''));
+        mark[i].isWinMove = true;
+        mark[j].isWinMove = true;
+        mark[k].isWinMove = true;
+        // console.log(arr[i], arr[j], arr[k]);
+        // console.log(Array.from(s1).join(''));
       }
     };
+
+    // For Horizontal Moves
     checkMoves(0, 1, 2);
     checkMoves(3, 4, 5);
     checkMoves(6, 7, 8);
+
+    // For Vertical Moves
     checkMoves(0, 3, 6);
     checkMoves(1, 4, 7);
     checkMoves(2, 5, 8);
+
+    // For Digonals Moves
     checkMoves(0, 4, 8);
     checkMoves(2, 4, 6);
 
-    if (count === 8) {
+    if (count === 8 && result === null) {
       setResult('Tie');
     }
   };
+
   return (
     <View style={styles.container}>
       <Pressable style={[styles.btn]}>
-        <Text style={styles.heading}>Player-{player}'s Turn</Text>
+        <Text style={styles.heading}>
+          Player -<Text style={styles.playerName}> {player}</Text>'s turn
+        </Text>
       </Pressable>
       <View style={styles.btnContainer}>
-        {mark.map(({id, value}, index) => (
+        {mark.map(({id, value, isWinMove}, index) => (
           <Button
             key={id}
             value={value}
@@ -142,6 +128,7 @@ const Home = () => {
             togglePlayer={togglePlayer}
             setPlayerMove={setPlayerMove}
             result={result}
+            isWinMove={isWinMove}
           />
         ))}
       </View>
@@ -151,12 +138,19 @@ const Home = () => {
 
       {result && (
         <View style={styles.resultContainer}>
-          <Text style={styles.resultTxt}>{`${
-            result === 'Tie'
-              ? `Match '${result}' Try Again.`
-              : `'${result}' wins the match.`
-          }`}</Text>
-          <Text style={[styles.resultTxt, {fontSize: 16}]}>Game Over!</Text>
+          {result !== 'Tie' ? (
+            <Text style={[styles.resultTxt, styles.heading]}>
+              Player <Text style={[styles.bold]}>{`'${result}'`}</Text> win the
+              match.
+            </Text>
+          ) : (
+            <Text style={[styles.resultTxt, styles.heading]}>
+              Match <Text style={[styles.bold]}>{result}</Text> try again.
+            </Text>
+          )}
+          <Text style={[styles.resultTxt, styles.heading]}>
+            Game Over!{result}
+          </Text>
         </View>
       )}
     </View>
@@ -167,23 +161,25 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 9,
+    marginTop: 40,
     alignItems: 'center',
-    gap: 20,
+    gap: 27,
   },
   btn: {
-    backgroundColor: 'gold',
+    backgroundColor: 'purple',
     paddingHorizontal: 9,
     paddingVertical: 15,
     width: '80%',
     borderRadius: 11,
     elevation: 3,
   },
+  playerName: {
+    fontWeight: 'bold',
+  },
   purple: {
     backgroundColor: 'purple',
   },
   heading: {
-    fontWeight: '700',
     fontSize: 20,
     color: 'white',
     textAlign: 'center',
@@ -196,18 +192,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   resultContainer: {
-    backgroundColor: 'maroon',
+    backgroundColor: 'purple',
     padding: 11,
+    marginTop: 20,
     width: '80%',
     borderRadius: 11,
     elevation: 3,
   },
   resultTxt: {
-    fontWeight: '900',
-    fontSize: 21,
     textTransform: 'capitalize',
-    marginLeft: 21,
-    color: 'white',
-    letterSpacing: 2,
+    lineHeight: 40,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
 });

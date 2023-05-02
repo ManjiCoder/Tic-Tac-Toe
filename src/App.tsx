@@ -1,13 +1,13 @@
-import {ScrollView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import React from 'react';
 import Home from './components/Home';
 
 const App = () => {
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar backgroundColor={'gold'} barStyle={'dark-content'} />
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={'purple'} barStyle={'dark-light'} />
       <Home />
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
