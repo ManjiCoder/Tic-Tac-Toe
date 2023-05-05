@@ -3,7 +3,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import Button from './Button';
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const initialState = [
     {
       id: 1,
@@ -52,7 +52,7 @@ const Home = () => {
     },
   ];
   const [player, setPlayer] = useState('0');
-  const [result, setResult] = useState(null);
+  const [winner, setWinner] = useState(null);
   const [mark, setMark] = useState(initialState);
   const [count, setCount] = useState(0);
 
@@ -62,14 +62,14 @@ const Home = () => {
 
   const setPlayerMove = (index, value) => {
     mark[index].value = value;
-    empire();
     setCount(count + 1);
+    empire();
   };
 
   const resetGame = () => {
     setMark(initialState);
     setPlayer('0');
-    setResult(null);
+    setWinner(null);
     setCount(0);
   };
 
@@ -79,7 +79,7 @@ const Home = () => {
     const checkMoves = (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
       if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
-        setResult(Array.from(s1).join(''));
+        setWinner(Array.from(s1).join(''));
         mark[i].isWinMove = true;
         mark[j].isWinMove = true;
         mark[k].isWinMove = true;
@@ -127,19 +127,21 @@ const Home = () => {
         ))}
       </View>
       <Pressable style={[styles.btn, styles.purple]} onPress={resetGame}>
-        <Text style={styles.heading}>Reload game</Text>
+        <Text style={styles.heading}>
+          {winner ? 'Start a new game' : 'Reload game'}
+        </Text>
       </Pressable>
 
       {result && (
         <View style={styles.resultContainer}>
           {result !== 'Tie' ? (
             <Text style={[styles.resultTxt, styles.heading]}>
-              Player <Text style={[styles.bold]}>{`'${result}'`}</Text> win the
+              Player <Text style={[styles.bold]}>{`'${winner}'`}</Text> win the
               match.
             </Text>
           ) : (
             <Text style={[styles.resultTxt, styles.heading]}>
-              Match <Text style={[styles.bold]}>{result}</Text> try again.
+              Match <Text style={[styles.bold]}>{winner}</Text> try again.
             </Text>
           )}
           <Text style={[styles.resultTxt, styles.heading]}>Game Over!</Text>

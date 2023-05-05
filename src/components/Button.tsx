@@ -10,7 +10,7 @@ const Button = ({
   setPlayerMove,
   index,
   isWinMove,
-}) => {
+}): JSX.Element => {
   const setPlayer = () => {
     togglePlayer(player === '0' ? 'X' : '0');
     Vibration.vibrate(108);
@@ -39,8 +39,6 @@ export default Button;
 const styles = StyleSheet.create({
   btn: {
     backgroundColor: 'grey',
-    // paddingVertical: 27,
-    // paddingHorizontal: 37,
     width: 100,
     height: 100,
     borderRadius: 5,

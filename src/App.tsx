@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import React from 'react';
 import Home from './components/Home';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={'purple'} barStyle={'dark-light'} />
