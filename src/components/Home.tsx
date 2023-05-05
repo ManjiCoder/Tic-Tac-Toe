@@ -100,8 +100,8 @@ const Home = (): JSX.Element => {
     checkMoves(0, 4, 8);
     checkMoves(2, 4, 6);
 
-    if (count === 8 && result === null) {
-      setResult('Tie');
+    if (count === 8 && winner === null) {
+      setWinner('Tie');
     }
   };
 
@@ -121,7 +121,7 @@ const Home = (): JSX.Element => {
             index={index}
             togglePlayer={togglePlayer}
             setPlayerMove={setPlayerMove}
-            result={result}
+            result={winner}
             isWinMove={isWinMove}
           />
         ))}
@@ -132,9 +132,9 @@ const Home = (): JSX.Element => {
         </Text>
       </Pressable>
 
-      {result && (
+      {winner && (
         <View style={styles.resultContainer}>
-          {result !== 'Tie' ? (
+          {winner !== 'Tie' ? (
             <Text style={[styles.resultTxt, styles.heading]}>
               Player <Text style={[styles.bold]}>{`'${winner}'`}</Text> win the
               match.
