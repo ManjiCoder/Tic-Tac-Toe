@@ -62,8 +62,8 @@ const Home = (): JSX.Element => {
 
   const setPlayerMove = (index: number, value: string) => {
     mark[index].value = value;
-    empire();
     setCount(count + 1);
+    empire();
   };
 
   const resetGame = () => {
@@ -76,13 +76,22 @@ const Home = (): JSX.Element => {
   const empire = () => {
     const arr = mark.map(({value}) => value);
 
-    const checkMoves = (i: number, j: number, k: number) => {
+    const checkMoves = async (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
+      let isWin = false;
+      // For match winning
       if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
         setWinner(Array.from(s1).join(''));
+        isWin = true;
         mark[i].isWinMove = true;
         mark[j].isWinMove = true;
         mark[k].isWinMove = true;
+      }
+
+      // For match tie
+      else if (count === 8 && isWin) {
+        setWinner('Tie');
+        console.warn(winner);
       }
     };
 
@@ -99,15 +108,11 @@ const Home = (): JSX.Element => {
     // For Digonals Moves
     checkMoves(0, 4, 8);
     checkMoves(2, 4, 6);
-
-    if (count === 9 && winner === null) {
-      setWinner('Tie');
-    }
   };
 
   return (
     <View style={styles.container}>
-      <Pressable style={[styles.btn]}>
+      <Pressable style={[styles.btn, player === 'X' ? styles.xbg : styles.obg]}>
         <Text style={styles.heading}>
           Player -<Text style={styles.playerName}> {player}</Text>'s turn
         </Text>
@@ -199,5 +204,11 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold',
+  },
+  xbg: {
+    backgroundColor: 'tomato',
+  },
+  obg: {
+    backgroundColor: 'skyblue',
   },
 });
