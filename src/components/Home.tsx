@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Button from './Button';
 
 const Home = (): JSX.Element => {
@@ -52,9 +52,10 @@ const Home = (): JSX.Element => {
     },
   ];
   const [player, setPlayer] = useState('O');
-  const [winner, setWinner] = useState(null);
+  // const [winner, setWinner] = useState(null);
   const [mark, setMark] = useState(initialGameState);
-  const [count, setCount] = useState(0);
+  const count = useRef(0);
+  const winner = useRef(null);
 
   const togglePlayer = value => {
     setPlayer(value);
@@ -62,36 +63,34 @@ const Home = (): JSX.Element => {
 
   const setPlayerMove = (index: number, value: string) => {
     mark[index].value = value;
-    setCount(count + 1);
+    count.current += 1;
     empire();
   };
 
   const resetGame = () => {
     setMark(initialGameState);
     setPlayer('O');
-    setWinner(null);
-    setCount(0);
+    winner.current = null;
+    count.current = 0;
   };
 
   const empire = () => {
     const arr = mark.map(({value}) => value);
 
-    const checkMoves = async (i: number, j: number, k: number) => {
+    const checkMoves = (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
-      let isWin = false;
+
       // For match winning
       if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
-        setWinner(Array.from(s1).join(''));
-        isWin = true;
+        winner.current = Array.from(s1).join('');
         mark[i].isWinMove = true;
         mark[j].isWinMove = true;
         mark[k].isWinMove = true;
       }
 
       // For match tie
-      else if (count === 8 && isWin) {
-        setWinner('Tie');
-        console.warn(winner);
+      else if (count.current === 9 && winner.current === null) {
+        winner.current = 'Tie';
       }
     };
 
@@ -126,27 +125,28 @@ const Home = (): JSX.Element => {
             index={index}
             togglePlayer={togglePlayer}
             setPlayerMove={setPlayerMove}
-            result={winner}
+            result={winner.current}
             isWinMove={isWinMove}
           />
         ))}
       </View>
       <Pressable style={[styles.btn, styles.purple]} onPress={resetGame}>
         <Text style={styles.heading}>
-          {winner ? 'Start a new game' : 'Reload game'}
+          {winner.current ? 'Start a new game' : 'Reload game'}
         </Text>
       </Pressable>
 
-      {winner && (
+      {winner.current && (
         <View style={styles.resultContainer}>
-          {winner !== 'Tie' ? (
+          {winner.current !== 'Tie' ? (
             <Text style={[styles.resultTxt, styles.heading]}>
-              Player <Text style={[styles.bold]}>{`'${winner}'`}</Text> win the
-              match.
+              Player <Text style={[styles.bold]}>{`'${winner.current}'`}</Text>{' '}
+              win the match.
             </Text>
           ) : (
             <Text style={[styles.resultTxt, styles.heading]}>
-              Match <Text style={[styles.bold]}>{winner}</Text> try again.
+              Match <Text style={[styles.bold]}>{winner.current}</Text> try
+              again.
             </Text>
           )}
           <Text style={[styles.resultTxt, styles.heading]}>Game Over!</Text>
