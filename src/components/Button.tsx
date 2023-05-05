@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity, Vibration} from 'react-native';
 import React from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Button = ({
   result,
@@ -12,14 +13,14 @@ const Button = ({
   isWinMove,
 }): JSX.Element => {
   const setPlayer = () => {
-    togglePlayer(player === '0' ? 'X' : '0');
+    togglePlayer(player === 'O' ? 'X' : 'O');
     Vibration.vibrate(108);
-    // console.warn(player);
   };
   const handleClick = i => {
     setPlayer();
     setPlayerMove(i, player);
   };
+
   return (
     <TouchableOpacity
       style={[styles.btn, isWinMove && styles.winMoveBg]}
@@ -28,7 +29,16 @@ const Button = ({
         handleClick(index);
       }}>
       <Text style={[styles.heading, isWinMove && styles.winMoveText]}>
-        {value}
+        {/* {value} */}
+        {value !== '-' ? (
+          <Icon
+            name={value === 'X' ? 'times' : 'circle-o'}
+            size={30}
+            color="white"
+          />
+        ) : (
+          <Icon name="pencil" size={30} color="#242B2E" />
+        )}
       </Text>
     </TouchableOpacity>
   );

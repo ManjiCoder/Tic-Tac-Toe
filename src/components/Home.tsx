@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import Button from './Button';
 
 const Home = (): JSX.Element => {
-  const initialState = [
+  const initialGameState = [
     {
       id: 1,
       value: '-',
@@ -51,24 +51,24 @@ const Home = (): JSX.Element => {
       isWinMove: false,
     },
   ];
-  const [player, setPlayer] = useState('0');
+  const [player, setPlayer] = useState('O');
   const [winner, setWinner] = useState(null);
-  const [mark, setMark] = useState(initialState);
+  const [mark, setMark] = useState(initialGameState);
   const [count, setCount] = useState(0);
 
   const togglePlayer = value => {
     setPlayer(value);
   };
 
-  const setPlayerMove = (index, value) => {
+  const setPlayerMove = (index: number, value: string) => {
     mark[index].value = value;
-    setCount(count + 1);
     empire();
+    setCount(count + 1);
   };
 
   const resetGame = () => {
-    setMark(initialState);
-    setPlayer('0');
+    setMark(initialGameState);
+    setPlayer('O');
     setWinner(null);
     setCount(0);
   };
@@ -100,7 +100,7 @@ const Home = (): JSX.Element => {
     checkMoves(0, 4, 8);
     checkMoves(2, 4, 6);
 
-    if (count === 8 && winner === null) {
+    if (count === 9 && winner === null) {
       setWinner('Tie');
     }
   };
