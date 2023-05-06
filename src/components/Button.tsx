@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, TouchableOpacity, Vibration} from 'react-native';
+import {Pressable, StyleSheet, Text, Vibration} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -22,11 +22,14 @@ const Button = ({
   };
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={[styles.btn, isWinMove && styles.winMoveBg]}
       disabled={result !== null || value !== '-'}
       onPress={() => {
         handleClick(index);
+      }}
+      android_ripple={{
+        color: 'white',
       }}>
       <Text style={[styles.heading, isWinMove && styles.winMoveText]}>
         {/* {value} */}
@@ -40,7 +43,7 @@ const Button = ({
           <Icon name="pencil" size={30} color="#242B2E" />
         )}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

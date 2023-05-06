@@ -52,7 +52,6 @@ const Home = (): JSX.Element => {
     },
   ];
   const [player, setPlayer] = useState('O');
-  // const [winner, setWinner] = useState(null);
   const [mark, setMark] = useState(initialGameState);
   const count = useRef(0);
   const winner = useRef(null);
@@ -74,21 +73,22 @@ const Home = (): JSX.Element => {
     count.current = 0;
   };
 
+  // Bussiness Logic
   const empire = () => {
     const arr = mark.map(({value}) => value);
 
     const checkMoves = (i: number, j: number, k: number) => {
       const s1 = new Set([arr[i], arr[j], arr[k]]);
 
-      // For match winning
-      if (new Set(s1).size === 1 && Array.from(s1).join('') !== '-') {
+      // Condition for Win
+      if (s1.size === 1 && Array.from(s1).join('') !== '-') {
         winner.current = Array.from(s1).join('');
         mark[i].isWinMove = true;
         mark[j].isWinMove = true;
         mark[k].isWinMove = true;
       }
 
-      // For match tie
+      // Condition for Tie
       else if (count.current === 9 && winner.current === null) {
         winner.current = 'Tie';
       }
