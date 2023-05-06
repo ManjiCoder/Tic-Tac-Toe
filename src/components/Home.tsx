@@ -111,11 +111,22 @@ const Home = (): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={[styles.btn, player === 'X' ? styles.xbg : styles.obg]}>
-        <Text style={styles.heading}>
-          Player -<Text style={styles.playerName}> {player}</Text>'s turn
-        </Text>
-      </Pressable>
+      {winner.current === null ? (
+        <View style={[styles.btn, player === 'X' ? styles.xbg : styles.obg]}>
+          <Text style={styles.heading}>
+            Player <Text style={styles.bold}>{player}</Text>'s turn
+          </Text>
+        </View>
+      ) : (
+        <View style={[styles.btn, styles.purple]}>
+          <Text style={styles.heading}>
+            {winner.current === 'Tie' ? 'Match' : 'Player'}{' '}
+            <Text style={styles.bold}>{winner.current}</Text>{' '}
+            {winner.current === 'Tie' ? '🔥' : "'s win 🏆"}
+          </Text>
+        </View>
+      )}
+
       <View style={styles.btnContainer}>
         {mark.map(({id, value, isWinMove}, index) => (
           <Button
@@ -130,28 +141,15 @@ const Home = (): JSX.Element => {
           />
         ))}
       </View>
-      <Pressable style={[styles.btn, styles.purple]} onPress={resetGame}>
+
+      <Pressable
+        style={[styles.btn, styles.purple]}
+        onPress={resetGame}
+        android_ripple={{color: 'white'}}>
         <Text style={styles.heading}>
           {winner.current ? 'Start a new game' : 'Reload game'}
         </Text>
       </Pressable>
-
-      {winner.current && (
-        <View style={styles.resultContainer}>
-          {winner.current !== 'Tie' ? (
-            <Text style={[styles.resultTxt, styles.heading]}>
-              Player <Text style={[styles.bold]}>{`'${winner.current}'`}</Text>{' '}
-              win the match.
-            </Text>
-          ) : (
-            <Text style={[styles.resultTxt, styles.heading]}>
-              Match <Text style={[styles.bold]}>{winner.current}</Text> try
-              again.
-            </Text>
-          )}
-          <Text style={[styles.resultTxt, styles.heading]}>Game Over!</Text>
-        </View>
-      )}
     </View>
   );
 };
@@ -169,11 +167,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 9,
     paddingVertical: 15,
     width: '80%',
-    borderRadius: 11,
+    // borderRadius: 11,
     elevation: 3,
-  },
-  playerName: {
-    fontWeight: 'bold',
+    overflow: 'hidden',
   },
   purple: {
     backgroundColor: 'purple',
@@ -190,25 +186,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
-  resultContainer: {
-    backgroundColor: 'purple',
-    padding: 11,
-    marginTop: 20,
-    width: '80%',
-    borderRadius: 11,
-    elevation: 3,
-  },
-  resultTxt: {
-    textTransform: 'capitalize',
-    lineHeight: 40,
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
+  bold: {fontWeight: 'bold'},
   xbg: {
     backgroundColor: 'tomato',
   },
   obg: {
-    backgroundColor: 'skyblue',
+    backgroundColor: 'orange',
   },
 });

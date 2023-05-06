@@ -37,7 +37,7 @@ const Button = ({
           <Icon
             name={value === 'X' ? 'times' : 'circle-o'}
             size={30}
-            color="white"
+            color={value === 'X' ? 'lime' : 'white'}
           />
         ) : (
           <Icon name="pencil" size={30} color="#242B2E" />
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     width: 100,
     height: 100,
-    borderRadius: 5,
+    // borderRadius: 5,
     elevation: 4,
     justifyContent: 'center',
     alignItems: 'center',
